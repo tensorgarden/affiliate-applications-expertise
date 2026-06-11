@@ -216,6 +216,26 @@ export const demoApplications: AffiliateApplication[] = [
     evidence: ["Extension listing", "Coupon feed sample"],
     riskFlags: ["Extension attribution risk", "Missing consent language"],
   },
+  {
+    id: "app_1011",
+    companyName: "AutoCompare Guides",
+    contactName: "Nadia Reeves",
+    channel: "content",
+    status: "needs_info",
+    country: "US",
+    audienceSize: 128000,
+    monthlyTraffic: 76000,
+    verticalFitScore: 83,
+    qualityScore: 74,
+    fraudRiskScore: 34,
+    expectedMonthlyRevenue: 20500,
+    requestedCommissionRate: 19,
+    submittedAt: "2026-06-06T10:40:00Z",
+    reviewer: "Compliance bot",
+    notes: "AI-generated comparison pages look commercially relevant, but disclosure placement and substantiation for product claims need verification before approval.",
+    evidence: ["AI content sample", "Disclosure placement crawl", "Claim substantiation checklist"],
+    riskFlags: ["Missing affiliate disclosure", "AI content labeling review"],
+  },
 ];
 
 export const demoTiers: ProgramTier[] = [
@@ -231,6 +251,7 @@ export const demoFraudSignals: FraudSignal[] = [
   { id: "sig_3", applicationId: "app_1007", label: "Traffic anomaly", severity: "high", confidence: 89, description: "Traffic increased 9x within 48 hours before application with no matching content event.", recommendedAction: "Reject pending verifiable analytics export." },
   { id: "sig_4", applicationId: "app_1010", label: "Extension attribution risk", severity: "medium", confidence: 78, description: "Browser extension may overwrite checkout attribution after demand is already created.", recommendedAction: "Pause and require consent language plus click path recording." },
   { id: "sig_5", applicationId: "app_1004", label: "Missing keyword exclusions", severity: "low", confidence: 66, description: "Paid search partner has not supplied negative keyword controls.", recommendedAction: "Hold approval until policy pack is uploaded." },
+  { id: "sig_6", applicationId: "app_1011", label: "Disclosure and AI content review", severity: "medium", confidence: 84, description: "Crawl found comparison pages with affiliate calls to action but inconsistent disclosure placement and unlabeled AI-assisted copy.", recommendedAction: "Request disclosure screenshots, AI content labeling policy, and claim substantiation before tier assignment." },
 ];
 
 export const demoPayoutRules: PayoutRule[] = [

@@ -49,6 +49,13 @@ describe("affiliate applications expertise demo data", () => {
     expect(demoFraudSignals.every((signal) => ids.has(signal.applicationId))).toBe(true);
   });
 
+  it("flags AI-assisted affiliate content for disclosure review before approval", () => {
+    const aiContentApplication = demoApplications.find((application) => application.companyName === "AutoCompare Guides");
+    expect(aiContentApplication?.status).toBe("needs_info");
+    expect(aiContentApplication?.riskFlags).toEqual(expect.arrayContaining(["Missing affiliate disclosure", "AI content labeling review"]));
+    expect(demoFraudSignals.some((signal) => signal.applicationId === aiContentApplication?.id && signal.label.includes("AI content"))).toBe(true);
+  });
+
   it("contains high confidence fraud recommendations", () => {
     expect(demoFraudSignals.some((signal) => signal.severity === "high" && signal.confidence >= 85)).toBe(true);
   });
