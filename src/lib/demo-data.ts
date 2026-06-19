@@ -235,6 +235,18 @@ export const demoApplications: AffiliateApplication[] = [
     notes: "AI-generated comparison pages look commercially relevant, but disclosure placement and substantiation for product claims need verification before approval.",
     evidence: ["AI content sample", "Disclosure placement crawl", "Claim substantiation checklist"],
     riskFlags: ["Missing affiliate disclosure", "AI content labeling review"],
+    complianceReview: {
+      affiliateDisclosure: "missing",
+      aiContentLabeling: "needs_evidence",
+      claimSubstantiation: "needs_evidence",
+      evidenceRequested: [
+        "Above-the-fold affiliate disclosure screenshot",
+        "AI content labeling policy for comparison pages",
+        "Source documentation for product ranking claims",
+      ],
+      lastCheckedAt: "2026-06-06T12:05:00Z",
+      reviewerNote: "Hold approval until double disclosure placement and product claim substantiation are verified.",
+    },
   },
 ];
 

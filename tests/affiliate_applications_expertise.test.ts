@@ -56,6 +56,32 @@ describe("affiliate applications expertise demo data", () => {
     expect(demoFraudSignals.some((signal) => signal.applicationId === aiContentApplication?.id && signal.label.includes("AI content"))).toBe(true);
   });
 
+  it("requires structured evidence before approving AI-assisted comparison content", () => {
+    const flaggedApplications = demoApplications.filter((application) =>
+      application.riskFlags.some((flag) => flag.includes("AI content") || flag.includes("affiliate disclosure")),
+    );
+
+    expect(flaggedApplications.length).toBeGreaterThan(0);
+
+    for (const application of flaggedApplications) {
+      expect(application.status).not.toBe("approved");
+      expect(application.complianceReview).toBeDefined();
+      expect(application.complianceReview?.affiliateDisclosure).not.toBe("verified");
+      expect(application.complianceReview?.evidenceRequested.length).toBeGreaterThanOrEqual(2);
+      expect(Number.isNaN(Date.parse(application.complianceReview?.lastCheckedAt ?? ""))).toBe(false);
+    }
+  });
+
+  it("captures claim substantiation as part of disclosure compliance review", () => {
+    const aiContentApplication = demoApplications.find((application) => application.companyName === "AutoCompare Guides");
+
+    expect(aiContentApplication?.complianceReview?.claimSubstantiation).toBe("needs_evidence");
+    expect(aiContentApplication?.complianceReview?.evidenceRequested).toEqual(
+      expect.arrayContaining(["Source documentation for product ranking claims"]),
+    );
+    expect(aiContentApplication?.complianceReview?.reviewerNote).toMatch(/substantiation/i);
+  });
+
   it("resolves every high-severity fraud signal", () => {
     const highSignals = demoFraudSignals.filter((signal) => signal.severity === "high");
     expect(highSignals.length).toBeGreaterThan(0);

@@ -4,6 +4,17 @@ export type PartnerChannel = "content" | "paid_search" | "influencer" | "newslet
 
 export type FraudSeverity = "low" | "medium" | "high";
 
+export type ComplianceCheckStatus = "verified" | "needs_evidence" | "missing";
+
+export interface ComplianceReview {
+  affiliateDisclosure: ComplianceCheckStatus;
+  aiContentLabeling: ComplianceCheckStatus;
+  claimSubstantiation: ComplianceCheckStatus;
+  evidenceRequested: string[];
+  lastCheckedAt: string;
+  reviewerNote: string;
+}
+
 export interface AffiliateApplication {
   id: string;
   companyName: string;
@@ -24,6 +35,7 @@ export interface AffiliateApplication {
   notes: string;
   evidence: string[];
   riskFlags: string[];
+  complianceReview?: ComplianceReview;
 }
 
 export interface ProgramTier {
