@@ -82,6 +82,9 @@ function ApplicationRow({ application }: { application: AffiliateApplication }) 
         {application.complianceReview && (
           <div className="mt-2 text-xs text-slate-500">
             Disclosure placement: {application.complianceReview.disclosurePlacement.replaceAll("_", " ")}
+            {application.complianceReview.liveDisclosureCadence && (
+              <span className="block">Live cadence: {application.complianceReview.liveDisclosureCadence.replaceAll("_", " ")}</span>
+            )}
           </div>
         )}
       </td>

@@ -3,6 +3,7 @@ import { demoActivity, demoAnalytics, demoApplications, demoFraudSignals, demoPa
 
 const statuses = new Set(["new", "reviewing", "approved", "needs_info", "rejected", "paused"]);
 const channels = new Set(["content", "paid_search", "influencer", "newsletter", "coupon", "b2b"]);
+const liveDisclosureCadences = new Set(["repeated_periodically", "opening_only", "not_applicable", "missing"]);
 
 describe("affiliate applications expertise demo data", () => {
   it("contains a realistic review queue", () => {
@@ -90,6 +91,24 @@ describe("affiliate applications expertise demo data", () => {
     for (const application of reviewedApplications) {
       expect(application.complianceReview?.disclosureLanguage.length).toBeGreaterThan(30);
       expect(application.complianceReview?.evidenceRequested.some((item) => /disclosure|caption|transcript|placement|partnership/i.test(item))).toBe(true);
+    }
+  });
+
+  it("requires repeated live disclosure cadence before approving livestream endorsements", () => {
+    const liveReviewedApplications = demoApplications.filter((application) =>
+      application.complianceReview?.liveDisclosureCadence && application.complianceReview.liveDisclosureCadence !== "not_applicable",
+    );
+
+    expect(liveReviewedApplications.length).toBeGreaterThan(0);
+
+    for (const application of liveReviewedApplications) {
+      expect(liveDisclosureCadences.has(application.complianceReview?.liveDisclosureCadence ?? "")).toBe(true);
+      expect(application.complianceReview?.liveDisclosureEvidence?.length ?? 0).toBeGreaterThan(40);
+
+      if (application.complianceReview?.liveDisclosureCadence !== "repeated_periodically") {
+        expect(application.status).not.toBe("approved");
+        expect(application.complianceReview?.evidenceRequested.some((item) => /livestream|live stream|transcript|timestamp|overlay/i.test(item))).toBe(true);
+      }
     }
   });
 
